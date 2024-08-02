@@ -69,10 +69,47 @@ public class Main {
         for (int i = 0; i < employee.length; i++){
             allEmployees(employee[i].getFio());
         }
+
+        for (int i = 0; i < 2; i++){
+            System.out.println('\n');
+
+        ///////////////////////////////////////////
+        }        System.out.println("ПОВЫШЕННЫЙ УРОВЕНЬ СЛОЖНОСТИ");
+        System.out.println("Индексация зп");
+        for (int i = 0; i < employee.length; i++){
+            indexSalary(16, employee[i]);
+            System.out.println(soutMan(employee[i]));
+        }
+
+        System.out.println("Действия с персоналом по номеру отдела");
+        System.out.println(minSalaryDepartment(3,employee));
+    }
+
+    //2 УРОВЕНЬ
+    public static String minSalaryDepartment(int department, Employee[] employees){
+        int min = 1000000;
+        Employee dudeee = new Employee(new Fio("fsv" , "sfsf", "sfsf"), 1,1200);
+        for (int i = 0; i < employees.length; i++){
+            if (employees[i].getDepartment() == department && employees[i].getSalary() < min){
+                min = employees[i].getSalary();
+                dudeee = employees[i];
+            }
+        }
+        return "В отделе " + dudeee.getDepartment()+ " самая маленькая зп у " + dudeee.getFio().getLastName() + " " + dudeee.getFio().getFirstName() + " " +
+                dudeee.getFio().getMiddleName() + " размером в " + min + " руб." ;
+    }
+
+    //Индексация зп
+    public static void indexSalary(int percent, Employee dude){
+        if (percent >= -100 && percent <= 100){
+            dude.setSalary(dude.getSalary() + dude.getSalary() * percent/100);
+        } else{
+            throw new IllegalArgumentException("Недопустимое значение индекса!");
+        }
     }
 
 
-
+    //1 УРОВЕНЬ
     //Метод выводит информацию о работниках
     public static Employee soutMan(Employee man){
         return man;
@@ -86,6 +123,8 @@ public class Main {
         }
         return sum;
     }
+
+
     //сотрудник с минимальной ЗП
     public static int isMin(int[] salarys){
         int min = 1000000000;
@@ -119,4 +158,5 @@ public class Main {
     public static void allEmployees(Fio fio1){
         System.out.println(fio1.getLastName() + " " + fio1.getFirstName() + " " + fio1.getMiddleName());
     }
- }
+
+}

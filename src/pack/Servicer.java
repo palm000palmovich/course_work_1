@@ -9,4 +9,5 @@ public class Servicer {
     public boolean checkSalary(Employee employee1){
         return (employee1.getSalary() > 0);
     }
+
 }
