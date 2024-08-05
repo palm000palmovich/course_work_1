@@ -3,7 +3,7 @@ package pack;
 import java.util.Objects;
 
 public class Employee {
-    public static int counter = 0;
+    public static int counter = 1;
     private int id;
     private Fio fio;
     private int department;
@@ -28,8 +28,10 @@ public class Employee {
     }
 
     public int getSalary() {
-        return salary;
+        return this.salary;
     }
+
+
 
     public int getId(){return id;}
 
@@ -50,7 +52,6 @@ public class Employee {
     }
 
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -67,8 +68,10 @@ public class Employee {
     @Override
     public String toString() {
         return "id= " + id +
-                ", fio= " + fio.getLastName() + " " + fio.getFirstName() + " " + fio.getLastName() +
+                ", fio= " + fio.getLastName() + " " + fio.getFirstName() + " " + fio.getMiddleName() +
                 ", department= " + department +
                 ", salary= " + salary;
     }
+
 }
+
