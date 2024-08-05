@@ -1,6 +1,5 @@
 package pack;
 
-import java.security.Provider;
 
 public class Main {
     public static void main(String[] args) {
@@ -15,7 +14,7 @@ public class Main {
                 2, 1200);
         employee[2] = new Employee(new Fio("Чувак", "Чувакович", "Чуваков"),
                 1, 13000);
-        employee[3] = new Employee(new Fio("Герасим","Антонинович","Соболев"), 3, 34000);
+        employee[3] = new Employee(new Fio("Герасим","Антонинович","Соболев"), 5, 34000);
         employee[4] = new Employee(new Fio("Семен","Андреевич","Королёв"), 5, 34050);
         employee[5] = new Employee(new Fio("Вацлава","Вячеславовна","Корапетян"), 2, 30000);
         employee[6] = new Employee(new Fio("Вячеслав","Ильич","Калинин"), 3, 69060);
@@ -23,59 +22,51 @@ public class Main {
         employee[8] = new Employee(new Fio("Екатерина","Семеновна","Петка"), 4, 70060);
         employee[9] = new Employee(new Fio("Максим","Васильевич","Погодин"), 3, 69060);
 
+        //вывод инфы о всех сотрудниках
         for (int i = 0; i < employee.length; i++){
-            if (service1.checkDepartment(employee[i]) == true && service1.checkSalary(employee[i]) == true){
-                System.out.println(soutMan(employee[i]));
-            } else{
-                throw new IllegalArgumentException("Недопустимое значение!");
-            }
-
+            System.out.println(soutMan(employee[i]));
         }
-        int minSalary = 0;
-        //Массив с зарплатамми
-        int[] all_salarys = new int[10];
+
+
+        int[] allSalarys = new int[10];   //Массив с зарплатамми
         for (int i =0; i < employee.length; i++){
-            all_salarys[i] = employee[i].getSalary();
+            allSalarys[i] = employee[i].getSalary();
         }
-
+        //сумма всех зп
         System.out.println("Сумма всех ЗП");
-        System.out.println(sumSalary(all_salarys) + " руб");
+        System.out.println(sumSalary(allSalarys) + " руб");
 
-        System.out.println("Минимальная ЗП");
-        minSalary = isMin(all_salarys);
-        String people = "";
-        for (int i = 0; i < employee.length; i++){
-            if (employee[i].getSalary() == minSalary){
-                people+= employee[i].getFio().getLastName() + " " + employee[i].getFio().getFirstName() + " " +
-                        employee[i].getFio().getMiddleName();
-            }
+        //минимальная ЗП
+        System.out.println(isMin(employee));
+
+        //максимальная зп
+        System.out.println(isMax(employee));
+
+        //средняя зп
+        System.out.println(middleSalary(employee.length, sumSalary(allSalarys)));
+        for (int i = 0; i < 2; i++){
+            System.out.println('\n');
+
         }
-        System.out.println("Самую маленькую ЗП получает " + people + " размером в " + minSalary + "  рублей.");
 
-        System.out.println("Максимальная ЗП");
-        int maxSalary = isMax(all_salarys);
-        String people1 = "";
-        for (int i = 0; i < employee.length; i++){
-            if (employee[i].getSalary() == isMax(all_salarys)){
-                people1+= employee[i].getFio().getLastName() + " " + employee[i].getFio().getFirstName() + " " +
-                        employee[i].getFio().getMiddleName();
-            }
-        }
-        System.out.println("Самую большую ЗП получает " + people1 + " размером в " + maxSalary + "  рублей.");
-
-        System.out.println("Средняя ЗП");
-        System.out.println(middleSalary(all_salarys.length, sumSalary(all_salarys)));
-        System.out.println("ФИО всех сотрудников");
+        //все фио
         for (int i = 0; i < employee.length; i++){
             allEmployees(employee[i].getFio());
+
         }
-    }
+        
 
-
-
+    //1 УРОВЕНЬ
     //Метод выводит информацию о работниках
     public static Employee soutMan(Employee man){
-        return man;
+        Servicer serv = new Servicer();
+        Employee chel = new Employee(new Fio("","",""),0,0);
+        if (serv.checkDepartment(man) && serv.checkSalary(man)){
+            chel = man;
+        } else{
+            throw new IllegalArgumentException("Недопустимое значение!");
+        }
+        return chel;
     }
 
     //Сумма затрат в месяц на ЗП.
@@ -86,37 +77,52 @@ public class Main {
         }
         return sum;
     }
-    //сотрудник с минимальной ЗП
-    public static int isMin(int[] salarys){
-        int min = 1000000000;
-        for (int i = 0; i < salarys.length; i++){
-            if (salarys[i] < min){
-                min = salarys[i];
-            }
 
+
+    //сотрудник с минимальной ЗП
+    public static String isMin(Employee[] men){
+        int[] allSalary = new int[men.length];
+        Employee chel = new Employee(new Fio("", "", ""), 0,0);
+
+        for (int i = 0; i < men.length; i++){
+            allSalary[i] = men[i].getSalary();
         }
-        return min;
+        int min = allSalary[0];
+        for (int i = 0; i < men.length; i++){
+            if (allSalary[i] < min){
+                min = allSalary[i];
+                chel = men[i];
+            }
+        }
+        return "Минимальная зп у (" + chel + ") " + " в размере: "  + min;
     }
 
     //сотрудник с максимальной ЗП
-    public static int isMax(int[] salarys){
-        int max = 0;
-        for (int i = 0; i < salarys.length; i++){
-            if (salarys[i] > max){
-                max = salarys[i];
+    public static String isMax(Employee[] men){
+        int[] allSalary = new int[men.length];
+        Employee chel = new Employee(new Fio("", "", ""), 0,0);
+
+        for (int i = 0; i < men.length; i++){
+            allSalary[i] = men[i].getSalary();
+        }
+        int max = allSalary[0];
+        for (int i = 0; i < men.length; i++){
+            if (allSalary[i] > max){
+                max = allSalary[i];
+                chel = men[i];
             }
         }
-
-        return max;
+        return "Максимальная зп у (" + chel + ") " + " в размере: "  + max;
     }
 
     //средняя ЗП
-    public static float middleSalary(int x, int sum){
-        return sum / x;
+    public static String middleSalary(int x, int sum){
+        return "Средняя ЗП " + sum / x;
 
     }
     //ФИО всех сотрудников
     public static void allEmployees(Fio fio1){
         System.out.println(fio1.getLastName() + " " + fio1.getFirstName() + " " + fio1.getMiddleName());
     }
- }
+
+}
