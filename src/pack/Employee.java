@@ -17,6 +17,7 @@ public class Employee {
         this.salary = salary;
     }
 
+
     //Геттеры
 
     public Fio getFio() {

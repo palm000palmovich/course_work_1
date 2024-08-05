@@ -3,7 +3,7 @@ package pack;
 
 public class Main {
     public static void main(String[] args) {
-
+        System.out.println("");
         Servicer service1 = new Servicer();
         Employee[] employee = new Employee[10];
 
